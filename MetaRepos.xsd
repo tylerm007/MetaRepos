@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Tyler Band (Band Software Design LLC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="MetaRepos">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Reposisotry" type="ReposisotryType"/>
+				<xs:element name="Version">
+					<xs:complexType>
+						<xs:attribute name="VersionId" type="xs:int" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DataObject" type="DataObjectType"/>
+	<xs:element name="QueryObject" type="QueryObjectType" nillable="0"/>
+	<xs:element name="Application" type="ApplicationType"/>
+	<xs:complexType name="RelationshipType">
+		<xs:sequence>
+			<xs:element name="DataObject_Jn_Relationship">
+				<xs:complexType>
+					<xs:attribute name="IsParentRole" type="xs:boolean" default="0"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="RelationshipName" type="xs:string" use="required"/>
+		<xs:attribute name="ParentRoleName" type="xs:string" use="required"/>
+		<xs:attribute name="ChildRolename" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ReposisotryType">
+		<xs:sequence>
+			<xs:element ref="DataObject" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="QueryObject" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Groups">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element ref="Application" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Relationship" type="RelationshipType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="OtherFiles"/>
+		</xs:sequence>
+		<xs:attribute name="RepositoryName" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="DataObjectType" mixed="0">
+		<xs:sequence>
+			<xs:element name="Attribute" type="AttributeType"/>
+			<xs:element name="Action">
+				<xs:complexType>
+					<xs:attribute name="ActionName" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Constraint"/>
+			<xs:element name="Index">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="IndexAttr"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="DataObjectName" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ApplicationType">
+		<xs:choice>
+			<xs:element name="HTMLApplication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Pages">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="RecordSource">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="RSAttrbiutes"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Transitions"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="JavaApplication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Forms">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="DataSource">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="RSAttributes"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="Transitions"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+		<xs:attribute name="ApplicationName" type="xs:short" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="QueryObjectType">
+		<xs:sequence>
+			<xs:element name="QueryDataObject"/>
+		</xs:sequence>
+		<xs:attribute name="QueryObjectName" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AttributeType">
+		<xs:choice>
+			<xs:element name="Validations"/>
+			<xs:element name="Derivations"/>
+		</xs:choice>
+		<xs:attribute name="AttributeName" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:schema>
